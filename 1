@@ -1,0 +1,40 @@
+import RPi.GPIO as GPIO
+import time
+
+# Pin configuration
+redButton = 18
+greenButton = 23
+blueButton = 24
+redLight = 26
+greenLight = 19
+blueLight = 13
+
+# Set up GPIO
+GPIO.setmode(GPIO.BCM)  # Use physical pin numbers
+GPIO.setup(redButton, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(greenButton, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(blueButton, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(redLight, GPIO.OUT)
+GPIO.setup(greenLight, GPIO.OUT)
+GPIO.setup(blueLight, GPIO.OUT)
+def update_leds():
+    redState = GPIO.input(redButton)
+    greenState = GPIO.input(greenButton)
+    blueState = GPIO.input(blueButton)
+    
+    GPIO.output( redLight, not redState)
+    GPIO.output( greenLight, not greenState)
+    GPIO.output( blueLight, not blueState)
+     
+     
+try:
+    while True:
+        update_leds()
+        time.sleep(0.01)
+except KeyboardInterrupt:
+    pass
+finally:
+    GPIO.cleanup()
+    
+
+ 
